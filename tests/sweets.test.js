@@ -154,3 +154,52 @@ describe("PUT /api/sweets/:id", () => {
     expect(res.status).toBe(404);
   });
 });
+
+
+describe("DELETE /api/sweets/:id", () => {
+  let sweetId;
+
+  beforeAll(async () => {
+    // Create a sweet to delete
+    const res = await request(app)
+      .post("/api/sweets")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Barfi", category: "Indian", price: 20 });
+    sweetId = res.body._id;
+  });
+
+  it("should not allow deleting a sweet without token", async () => {
+    const res = await request(app).delete(`/api/sweets/${sweetId}`);
+    expect(res.status).toBe(401);
+  });
+
+  it("should not allow deleting a sweet if not admin", async () => {
+    const res = await request(app)
+      .delete(`/api/sweets/${sweetId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(403); // Forbidden
+  });
+
+  it("should allow admin to delete a sweet", async () => {
+    // First, register and login admin
+    const adminEmail = `admin-${Date.now()}@example.com`;
+    const adminPassword = "AdminPass123";
+
+    await request(app)
+      .post("/api/auth/register")
+      .send({ email: adminEmail, password: adminPassword, role: "admin" });
+
+    const loginRes = await request(app)
+      .post("/api/auth/login")
+      .send({ email: adminEmail, password: adminPassword });
+
+    const adminToken = loginRes.body.token;
+
+    const res = await request(app)
+      .delete(`/api/sweets/${sweetId}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("message", "Sweet deleted successfully");
+  });
+});
