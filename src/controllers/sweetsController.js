@@ -1,5 +1,25 @@
 const Sweet = require("../models/Sweet");
 
+const createSweet = async (req, res) => {
+  try {
+    const { name, category, price, quantity } = req.body;
+    const sweet = new Sweet({ name, category, price, quantity });
+    await sweet.save();
+    res.status(201).json(sweet);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+const getAllSweets = async (req, res) => {
+  try {
+    const sweets = await Sweet.find();
+    res.status(200).json(sweets);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const searchSweets = async (req, res) => {
   try {
     const { name, category, minPrice, maxPrice } = req.query;
@@ -20,4 +40,4 @@ const searchSweets = async (req, res) => {
   }
 };
 
-module.exports = { searchSweets };
+module.exports = { createSweet, getAllSweets, searchSweets };
