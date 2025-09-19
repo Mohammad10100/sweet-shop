@@ -13,4 +13,16 @@ describe("Auth API", () => {
       expect(res.body).toHaveProperty("email", "test@example.com");
     });
   });
+
+    describe("POST /api/auth/login", () => {
+    it("should log in a user and return 200 with a token", async () => {
+      const res = await request(app)
+        .post("/api/auth/login")
+        .send({ email: "test@example.com", password: "password123" });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty("token");
+    });
+  });
+
 });
