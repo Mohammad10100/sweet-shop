@@ -14,7 +14,7 @@ describe("Auth API", () => {
     });
   });
 
-    describe("POST /api/auth/login", () => {
+  describe("POST /api/auth/login", () => {
     it("should log in a user and return 200 with a token", async () => {
       const res = await request(app)
         .post("/api/auth/login")

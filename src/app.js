@@ -1,14 +1,9 @@
 const express = require("express");
+const authRoutes = require("../routes/auth");
 const app = express();
 
 app.use(express.json());
 
-app.post("/api/auth/register", (req, res) => {
-  const { email, password } = req.body;
-  return res.status(201).json({
-    userId: "mock-id-123",
-    email,
-  });
-});
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
