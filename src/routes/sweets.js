@@ -1,7 +1,7 @@
 const express = require("express");
 const Sweet = require("../models/Sweet");
 const authMiddleware = require("../middleware/auth");
-
+const { searchSweets } = require("../controllers/sweetsController");
 const router = express.Router();
 
 // POST /api/sweets
@@ -25,5 +25,7 @@ router.get("/", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 }); 
+
+router.get("/search", authMiddleware, searchSweets);
 
 module.exports = router;
