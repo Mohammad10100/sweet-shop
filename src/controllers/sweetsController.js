@@ -101,5 +101,27 @@ const purchaseSweet = async (req, res) => {
   }
 };
 
+const restockSweet = async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
 
-module.exports = { createSweet, getAllSweets, searchSweets, updateSweet, deleteSweet, purchaseSweet };
+  if (!quantity || quantity <= 0) {
+    return res.status(400).json({ error: "Quantity must be greater than 0" });
+  }
+
+  try {
+    const sweet = await Sweet.findByIdAndUpdate(
+      id,
+      { $inc: { quantity: quantity } },
+      { new: true }
+    );
+
+    if (!sweet) return res.status(404).json({ error: "Sweet not found" });
+
+    res.status(200).json({ message: "Sweet restocked successfully", sweet });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports = { createSweet, getAllSweets, searchSweets, updateSweet, deleteSweet, purchaseSweet, restockSweet };
