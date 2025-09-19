@@ -81,16 +81,19 @@ const purchaseSweet = async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body;
 
+  if (!quantity || quantity <= 0) {
+    return res.status(400).json({ error: "Quantity must be greater than 0" });
+  }
+
   try {
-    const sweet = await Sweet.findById(id);
-    if (!sweet) return res.status(404).json({ error: "Sweet not found" });
+    // Atomic update: decrement quantity only if enough stock exists
+    const sweet = await Sweet.findOneAndUpdate(
+      { _id: id, quantity: { $gte: quantity } },
+      { $inc: { quantity: -quantity } },
+      { new: true } // return updated document
+    );
 
-    if (quantity > sweet.quantity) {
-      return res.status(400).json({ error: "Insufficient quantity" });
-    }
-
-    sweet.quantity -= quantity;
-    await sweet.save();
+    if (!sweet) return res.status(400).json({ error: "Insufficient quantity" });
 
     res.status(200).json({ message: "Purchase successful", sweet });
   } catch (err) {
