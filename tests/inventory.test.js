@@ -64,3 +64,40 @@ describe("POST /api/sweets/:id/purchase", () => {
     expect(res.body).toHaveProperty("error", "Insufficient quantity");
   });
 });
+
+
+describe("POST /api/sweets/:id/restock", () => {
+  it("should not allow non-admin to restock", async () => {
+    const res = await request(app)
+      .post(`/api/sweets/${sweetId}/restock`)
+      .set("Authorization", `Bearer ${token}`) // regular user token
+      .send({ quantity: 10 });
+
+    expect(res.status).toBe(403);
+  });
+
+  it("should allow admin to restock a sweet", async () => {
+    const adminEmail = `admin-${Date.now()}@example.com`;
+    const adminPassword = "AdminPass123";
+
+    await request(app)
+      .post("/api/auth/register")
+      .send({ email: adminEmail, password: adminPassword, role: "admin" });
+
+    const loginRes = await request(app)
+      .post("/api/auth/login")
+      .send({ email: adminEmail, password: adminPassword });
+
+    const adminToken = loginRes.body.token;
+
+    const res = await request(app)
+      .post(`/api/sweets/${sweetId}/restock`)
+      .set("Authorization", `Bearer ${adminToken}`)
+      .send({ quantity: 20 });
+
+    expect(res.status).toBe(200);
+    expect(res.body.sweet.quantity).toBeGreaterThan(0);
+    expect(res.body).toHaveProperty("message", "Sweet restocked successfully");
+  });
+});
+
