@@ -111,3 +111,46 @@ describe("GET /api/sweets/search", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
+
+
+describe("PUT /api/sweets/:id", () => {
+  it("should not allow updating a sweet without token", async () => {
+    const sweet = await request(app)
+      .post("/api/sweets")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Barfi", category: "Indian", price: 20 });
+
+    const res = await request(app)
+      .put(`/api/sweets/${sweet.body._id}`)
+      .send({ name: "Barfi Updated" });
+
+    expect(res.status).toBe(401);
+  });
+
+  it("should update a sweet with valid token", async () => {
+    const sweet = await request(app)
+      .post("/api/sweets")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Barfi", category: "Indian", price: 20 });
+
+    const res = await request(app)
+      .put(`/api/sweets/${sweet.body._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Barfi Updated", price: 25 });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("_id", sweet.body._id);
+    expect(res.body.name).toBe("Barfi Updated");
+    expect(res.body.price).toBe(25);
+  });
+
+  it("should return 404 if sweet not found", async () => {
+    const fakeId = new mongoose.Types.ObjectId();
+    const res = await request(app)
+      .put(`/api/sweets/${fakeId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Does Not Exist" });
+
+    expect(res.status).toBe(404);
+  });
+});
