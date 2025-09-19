@@ -73,3 +73,41 @@ describe("GET /api/sweets", () => {
     expect(res.status).toBe(401);
   });
 });
+
+
+describe("GET /api/sweets/search", () => {
+  it("should not allow searching sweets without token", async () => {
+    const res = await request(app)
+      .get("/api/sweets/search?name=Ladoo");
+    expect(res.status).toBe(401); // Expect unauthorized
+  });
+
+  it("should return sweets filtered by name with valid token", async () => {
+    const res = await request(app)
+      .get("/api/sweets/search?name=Ladoo")
+      .set("Authorization", `Bearer ${token}`);
+
+    // This will fail initially because the endpoint doesn't exist yet
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body[0]).toHaveProperty("name", "Ladoo");
+  });
+
+  it("should return sweets filtered by category with valid token", async () => {
+    const res = await request(app)
+      .get("/api/sweets/search?category=Indian")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  it("should return sweets filtered by price range with valid token", async () => {
+    const res = await request(app)
+      .get("/api/sweets/search?minPrice=5&maxPrice=15")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+});
