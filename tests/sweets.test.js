@@ -4,16 +4,25 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
-let token;
-
-// TODO: Set up user login check middleware to get a valid token
-// TODO: leaving it here so i change commit messages accordingly for chatgpt as an author
+let token; 
+const testEmail = `test-${Date.now()}@example.com`;
+const password = "Password123";
 
 beforeAll(async () => {
-  token = jwt.sign({ userId: "test@example.com" }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  // Connect to MongoDB
   await mongoose.connect(process.env.MONGO_URI);
+
+  // Register test user
+  await request(app)
+    .post("/api/auth/register")
+    .send({ email: testEmail, password: password });
+
+  // Login to get token
+  const res = await request(app)
+    .post("/api/auth/login")
+    .send({ email: testEmail, password: password });
+
+  token = res.body.token;
 });
 
 afterAll(async () => {
