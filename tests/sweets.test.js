@@ -55,3 +55,21 @@ describe("Sweets API", () => {
     expect(res.body.name).toBe("Ladoo");
   });
 });
+
+
+describe("GET /api/sweets", () => {
+  it("should return all sweets for authorized user", async () => {
+    const res = await request(app)
+      .get("/api/sweets")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true); // should return an array of sweets
+    expect(res.body.length).toBeGreaterThan(0); // at least one sweet added in previous test
+  });
+
+  it("should not allow access without token", async () => {
+    const res = await request(app).get("/api/sweets");
+    expect(res.status).toBe(401);
+  });
+});
