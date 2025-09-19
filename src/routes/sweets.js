@@ -16,4 +16,14 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+// GET /api/sweets
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const sweets = await Sweet.find();
+    res.status(200).json(sweets);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+}); 
+
 module.exports = router;
