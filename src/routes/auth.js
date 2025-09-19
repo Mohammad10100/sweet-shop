@@ -24,12 +24,7 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log("InsideAuthRoute");
-
-    const newUser = await User.create({ email, password: hashedPassword });
-
-    console.log(newUser, "ThisIsNewUser");
-    
+    const newUser = await User.create({ email, password: hashedPassword });    
 
     return res.status(201).json({
       userId: newUser._id,
