@@ -7,11 +7,19 @@ require('dotenv').config();
 let token;
 
 // TODO: Set up user login check middleware to get a valid token
-beforeAll(() => {
-  token = jwt.sign({ userId: "test@gmail.com" }, process.env.JWT_SECRET, {
+// TODO: leaving it here so i change commit messages accordingly for chatgpt as an author
+
+beforeAll(async () => {
+  token = jwt.sign({ userId: "test@example.com" }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
+  await mongoose.connect(process.env.MONGO_URI);
 });
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
 
 describe("Sweets API", () => {
   it("should not allow adding a sweet without token", async () => {
