@@ -182,3 +182,21 @@ All implementation and modifications were manually reviewed and adapted to fit t
 Using AI sped up my workflow significantly, especially since I had only a couple of days to complete the assessment.
 However, I made sure to review and edit all generated code before integrating it, ensuring I understood each part.
 Without AI, I wouldn’t have been able to finish the frontend and backend within the limited time, but I retained full control over the logic and design choices.
+
+---
+
+### Testing
+
+### ✅ Test Coverage
+![Coverage](https://img.shields.io/badge/coverage-84%25-brightgreen)
+
+This project maintains high test coverage to ensure reliability and stability.  
+
+- **Total Statements Covered:** 83.85%  
+- **Branches Covered:** 73.33%  
+- **Functions Covered:** 100%  
+- **Lines Covered:** 86%  
+
+📊 You can view the detailed HTML coverage report here:  
+👉 [Coverage Report](./docs/test-report/index.html)
+<img width="2560" height="896" alt="test" src="https://github.com/user-attachments/assets/5fa30a3d-0c5a-45c4-b4a7-c36df732bd7c" />
