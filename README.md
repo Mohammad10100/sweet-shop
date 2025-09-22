@@ -1,6 +1,10 @@
 # [SWEET SHOP](https://sweet-shop-iota.vercel.app/)
 Click Above To Visit The Deployed Site
 
+## Credentials
+- test@example.com, Password123
+- admin@example.com, AdminPassword123
+
 # 📢 Note to Incubyte Team
 
 I wanted to provide some context regarding my submission.
