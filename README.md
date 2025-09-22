@@ -188,14 +188,14 @@ Without AI, I wouldn’t have been able to finish the frontend and backend withi
 ### Testing
 
 ### ✅ Test Coverage
-![Coverage](https://img.shields.io/badge/coverage-84%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-88%25-brightgreen)
 
 This project maintains high test coverage to ensure reliability and stability.  
 
-- **Total Statements Covered:** 83.85%  
-- **Branches Covered:** 73.33%  
+- **Total Statements Covered:** 88.19%  
+- **Branches Covered:** 81.66% 
 - **Functions Covered:** 100%  
-- **Lines Covered:** 86%  
+- **Lines Covered:** 89.33%  
 
 📊 You can view the detailed HTML coverage report here:  
 👉 [Coverage Report](./docs/test-report/index.html)
