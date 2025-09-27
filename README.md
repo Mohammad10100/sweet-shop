@@ -5,24 +5,6 @@ Click Above To Visit The Deployed Site
 - test@example.com, Password123
 - admin@example.com, AdminPassword123
 
-# 📢 Note to Incubyte Team
-
-I wanted to provide some context regarding my submission.
-
-Due to an unexpected medical emergency in my family (a close member suffered a rib fracture and required hospital visits and care), I was only left with two days to work on this assessment. Because of the time constraints, I made the following decisions:
-
-- I chose to keep the frontend and backend repositories separate. This ensures cleaner code organization, no commit interference, and easier maintainability.
-- For the frontend, I had to rely heavily on AI tools (primarily Claude SONET 4) to accelerate the development process within the limited time. I carefully reviewed all AI-generated code before integrating it.
-- While I successfully implemented all required frontend functionality, I was not able to include **FRONTEND TEST CASES** due to time limitations.
-- On the backend, I followed a TDD approach with Jest and Supertest, so the backend is well-covered with tests.
-
-I hope this clarifies my approach and the trade-offs I made given the situation. Thank you for understanding.
-
-Sincerely,
-Mohammad
-
----
-
 ## TDD Backend
 
 A **Node.js** + **Express** backend application for managing a Sweet Shop, built with **TDD** using **Jest** and **Supertest**. It provides authentication, sweet management, purchasing, and admin-only restocking/deletion functionality.  
